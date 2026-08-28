@@ -2,8 +2,6 @@
 
 Personal agent skills you can install with the [skills CLI](https://skills.sh/).
 
-[![skills.sh](https://skills.sh/b/wellguimaraes/code-agent-skills)](https://skills.sh/wellguimaraes/code-agent-skills)
-
 ## Install
 
 ```bash
