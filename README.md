@@ -17,6 +17,7 @@ npx skills add wellguimaraes/code-agent-skills --skill pick-worktree
 | Skill | Description |
 | --- | --- |
 | `pick-worktree` | List worktrees and local branches, pick where the session should work, or create a new branch in a new worktree. |
+| `show-me` | Explain a topic visually by rendering a markdown page with diagrams, trees, and diffs, then opening it in the browser instead of dumping diagrams in chat. |
 
 ## License
 

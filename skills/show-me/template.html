@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>show-me</title>
+    <style>
+      :root {
+        --bg: #12110f;
+        --bg-raise: #1c1a17;
+        --ink: #ece7dc;
+        --muted: #9a9284;
+        --line: #3a352c;
+        --accent: #e0a24b;
+        --add: #7dbe7a;
+        --del: #e07a6a;
+        --mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+        --sans: "Segoe UI", system-ui, sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+      html, body { margin: 0; background: var(--bg); color: var(--ink); }
+      body {
+        font: 16px/1.55 var(--sans);
+        padding: 32px 20px 80px;
+      }
+      main { max-width: 860px; margin: 0 auto; }
+      .kicker {
+        margin: 0 0 20px;
+        color: var(--accent);
+        font: 12px/1 var(--mono);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      #view > *:first-child { margin-top: 0; }
+      h1 { margin: 0 0 12px; font-size: 32px; letter-spacing: -0.03em; }
+      h2 { margin: 32px 0 12px; font-size: 20px; letter-spacing: -0.02em; }
+      h3 { margin: 24px 0 8px; font-size: 16px; }
+      p, li { max-width: 62ch; }
+      p { margin: 0 0 12px; }
+      a { color: var(--accent); }
+      hr { border: 0; border-top: 1px solid var(--line); margin: 28px 0; }
+      pre {
+        background: var(--bg-raise);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        overflow-x: auto;
+        margin: 0 0 16px;
+        padding: 16px 18px;
+        font: 13px/1.55 var(--mono);
+      }
+      code { font-family: var(--mono); font-size: 0.9em; }
+      :not(pre) > code {
+        background: var(--bg-raise);
+        padding: 0.1em 0.35em;
+        border-radius: 4px;
+      }
+      .add { color: var(--add); }
+      .del { color: var(--del); }
+      pre.mermaid {
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+      }
+      table { border-collapse: collapse; margin: 0 0 16px; }
+      th, td {
+        border: 1px solid var(--line);
+        padding: 8px 10px;
+        text-align: left;
+      }
+      th { color: var(--muted); font-weight: 600; }
+      .error { color: var(--del); }
+      @media (max-width: 640px) {
+        body { padding: 20px 14px 64px; }
+        h1 { font-size: 26px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="kicker">show-me</p>
+      <article id="view">Loading…</article>
+    </main>
+    <script type="module">
+      import { marked } from "https://cdn.jsdelivr.net/npm/marked@15/+esm";
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+      const view = document.getElementById("view");
+
+      function escapeHtml(s) {
+        return s
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      marked.use({
+        gfm: true,
+        renderer: {
+          code(token) {
+            const text = typeof token === "string" ? token : token.text;
+            const lang = typeof token === "string" ? arguments[1] : token.lang;
+            const info = String(lang || "").split(/\s+/)[0];
+            if (info === "mermaid") {
+              return `<pre class="mermaid">${escapeHtml(text)}</pre>`;
+            }
+            const cls = info ? ` class="language-${info}"` : "";
+            return `<pre><code${cls}>${escapeHtml(text)}</code></pre>`;
+          },
+        },
+      });
+
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: "dark",
+        themeVariables: {
+          darkMode: true,
+          background: "#1c1a17",
+          primaryColor: "#3a352c",
+          primaryTextColor: "#ece7dc",
+          primaryBorderColor: "#9a9284",
+          lineColor: "#9a9284",
+          secondaryColor: "#12110f",
+          tertiaryColor: "#1c1a17",
+        },
+      });
+
+      try {
+        const res = await fetch(`./content.md?t=${Date.now()}`);
+        if (!res.ok) throw new Error(`content.md ${res.status}`);
+        const md = await res.text();
+        view.innerHTML = marked.parse(md);
+
+        const title = view.querySelector("h1");
+        if (title) document.title = title.textContent;
+
+        for (const code of view.querySelectorAll("pre code.language-diff")) {
+          code.innerHTML = code.textContent
+            .split("\n")
+            .map((line) => {
+              const esc = escapeHtml(line);
+              if (line.startsWith("+")) return `<span class="add">${esc}</span>`;
+              if (line.startsWith("-")) return `<span class="del">${esc}</span>`;
+              return esc;
+            })
+            .join("\n");
+        }
+
+        await mermaid.run({ querySelector: ".mermaid" });
+      } catch (err) {
+        view.innerHTML = `<p class="error">${escapeHtml(String(err.message || err))}</p>`;
+      }
+    </script>
+  </body>
+</html>
