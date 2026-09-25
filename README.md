@@ -19,6 +19,7 @@ npx skills add wellguimaraes/code-agent-skills --skill pick-worktree
 | `cleanup-branches` | Delete local git branches and their worktrees whose GitHub PRs are already merged, with a dry-run first. |
 | `multi-commit` | Split a dirty working tree into focused conventional commits authored as the user, with no agent signature. |
 | `pick-worktree` | List worktrees and local branches, pick where the session should work, or create a new branch in a new worktree. |
+| `pr-my-way` | Create a GitHub pull request with gh, with a conventional-commit title, a simple-English body with Why first, and one show-me visual. |
 | `review-plan` | Review a plan for mistakes, simplification, and optimization opportunities, then patch the plan without implementing it. |
 | `show-me` | Explain a topic visually by rendering a markdown page with diagrams, trees, and diffs, then opening it in the browser instead of dumping diagrams in chat. |
 | `simple-english` | Write or rewrite text in plain, layman-readable English in the spirit of ASD-STE100 Simplified Technical English. Adapted from AminBlg/SimpleEnglish (MIT). |
