@@ -10,8 +10,8 @@ disable-model-invocation: true
 
 # Cleanup branches
 
-Tear down local branches whose PRs already merged. Companion to
-`/pick-worktree` (which creates checkouts under `<MAIN_ROOT>/.worktrees/`).
+Tear down local branches whose PRs already merged, including worktree
+checkouts under `<MAIN_ROOT>/.worktrees/`.
 
 The script decides what is safe. Do not re-derive the candidate list yourself.
 
@@ -53,7 +53,7 @@ Otherwise show each safe row: branch, PR link, worktree path (or “no worktree�
 - Cancel
 
 If this window’s branch is listed under `current-worktree`, tell the user to
-`/pick-worktree` onto `develop`/`main` first; the script will not remove the
+switch to `develop`/`main` first; the script will not remove the
 open checkout.
 
 ## 4. Apply
