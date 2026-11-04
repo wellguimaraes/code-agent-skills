@@ -17,6 +17,7 @@ npx skills add wellguimaraes/code-agent-skills --skill pick-worktree
 | Skill | Description |
 | --- | --- |
 | `cleanup-branches` | Delete local git branches and their worktrees whose GitHub PRs are already merged, with a dry-run first. |
+| `co-review` | Agent-paired code review: a fresh agent reads the diff, briefs the reviewer, walks through the implementation with code as proof, and reconciles findings against the reviewer's pre-registered suspicions. |
 | `multi-commit` | Split a dirty working tree into focused conventional commits authored as the user, with no agent signature. |
 | `pick-worktree` | List worktrees and local branches, pick where the session should work, or create a new branch in a new worktree. |
 | `pr-my-way` | Create a GitHub pull request with gh, with a conventional-commit title, a simple-English body with Why first, and one show-me visual. |
