@@ -20,6 +20,7 @@ npx skills add wellguimaraes/code-agent-skills --skill cleanup-branches
 | `co-review` | Agent-paired code review: a fresh agent reads the diff, briefs the reviewer, walks through the implementation with code as proof, and reconciles findings against the reviewer's pre-registered suspicions. |
 | `multi-commit` | Split a dirty working tree into focused conventional commits authored as the user, with no agent signature. |
 | `pr-my-way` | Create a GitHub pull request with gh, with a conventional-commit title, a simple-English body with Why first, and one show-me visual. |
+| `review-changes` | Review actual code changes for mistakes, simplification, and optimization opportunities, check added tests against a plain comment, then patch clear fixes into the working tree. |
 | `review-plan` | Review a plan for mistakes, simplification, and optimization opportunities, then patch the plan without implementing it. |
 | `show-me` | Explain a topic visually by rendering a markdown page with diagrams, trees, and diffs, then opening it in the browser instead of dumping diagrams in chat. |
 | `simple-english` | Write or rewrite text in plain, layman-readable English in the spirit of ASD-STE100 Simplified Technical English. Adapted from AminBlg/SimpleEnglish (MIT). |
